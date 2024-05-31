@@ -1,0 +1,67 @@
+#Actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #refresh  #refresh는 config server 로부터 설정을 다시 받아오는 endpoint 이다.
+        #● 노출된 전체 엔드포인트조회 :  
+        #  - 웹브라우저에  http://앱호스트명/actuator  (GET방식) 호출하면 해당앱에 노출된 모든 엔드포인트 리스트가 출력된다. 
+        #    ex) http://localhost:8081/actuator (주의 /actuator/ 으로 뒤에 슬래시 '/' 붙이면 에러발생)   
+        #● 특정엔드포인트 조회 : url로 호출시는 반드시 post방식으로 만 가능하다. ex) curl -X POST http://localhost:8081/actuator/refresh
+
+
+server:
+  port: ${service_port:8081}
+
+spring:
+  application:
+    name: ms-app1
+
+  profiles:
+    active: ${profile:local}
+
+--- #local 환경
+spring:
+  config:
+    activate:
+      on-profile: local
+      
+    import: "configserver:http://localhost:9001" # 클라우드 2020.0 버전이후 최신 버전에서는 spring.config.import 속성을 사용하는 것이 권장
+    
+  cloud:
+    config: # Ex) `http://localhost:9900/config/test`
+      #enabled: false #config서버를 사용하고 싶지 않을때 false로 선안하면 된다(디폴트는 true)
+      name: ${spring.application.name} #앱명(디렉토리명), config name
+      profile: local,common # config profile
+
+--- #dev 환경
+spring:
+  config:
+    activate:
+      on-profile: dev
+      
+    import: "configserver:http://localhost:9001" # 클라우드 2020.0 버전이후 최신 버전에서는 spring.config.import 속성을 사용하는 것이 권장
+    
+  cloud:
+    config: # Ex) `http://localhost:9900/config/test`
+      #enabled: false #config서버를 사용하고 싶지 않을때 false로 선안하면 된다(디폴트는 true)
+      name: ${spring.application.name} #앱명(디렉토리명), config name
+      profile: dev,common # config profile
+
+
+--- #prod 환경
+spring:
+  config:
+    activate:
+      on-profile: prod
+      
+    import: "configserver:http://localhost:9001" # 클라우드 2020.0 버전이후 최신 버전에서는 spring.config.import 속성을 사용하는 것이 권장
+    
+  cloud:
+    config: # Ex) `http://localhost:9900/config/test`
+      #enabled: false #config서버를 사용하고 싶지 않을때 false로 선안하면 된다(디폴트는 true)
+      name: ${spring.application.name} #앱명(디렉토리명), config name
+      profile: prod,common # config profile
+      
+      
+      
