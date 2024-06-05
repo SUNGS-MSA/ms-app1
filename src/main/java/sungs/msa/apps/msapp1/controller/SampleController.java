@@ -1,4 +1,4 @@
-package sungs.msa.app.controller;
+package sungs.msa.apps.msapp1.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

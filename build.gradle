@@ -26,14 +26,54 @@ ext {
 }
 
 dependencies {
+	
+	/////////////////////////////////////////////////////////////////////////
+	///// Spring Cloud를 이용하는 모든 개별앱 , apigateway 공통 ( Config Server, EurekServer 는 별도설정)  
+	/////////////////////////////////////////////////////////////////////////
+	// Spring Boot actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Spring config client
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	// Spring Cloud Bus + RabbitMQ (config변경 구동)
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	//eurek client 
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	// Spring cloud loadBalncer
+	implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+	
+	//swagger2(spring boot 2.x 버전 호환 )
+	//implementation 'io.springfox:springfox-swagger2:2.9.2'
+	//implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	//swagger3(spring boot 3.x 버전 호환 )
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0' //Swagger3
+
+    //webflux (WebClient사용)
+    //webflux 의존을 추가하지 않아도 소스상에서 WebClient를 사용할 수 있으나  WebFlux의 기능을 활용하지 않습니다.
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	
+	//Tracing(Spring Cloud Sleuth + Zipkin) - spring boot 2.x 버전 호환
+	//implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	//implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+	//Tracing(Spring micrometer + Zipkin) - spring boot 3.x 버전 호환
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+	
+	/////////////////////////////////////////////////////////////////////////
+	///// 업무앱의 주모듈
+	/////////////////////////////////////////////////////////////////////////
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	
+	/////////////////////////////////////////////////////////////////////////
+	///// 개발시 필요한 것들
+	/////////////////////////////////////////////////////////////////////////
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	
 }
 
 dependencyManagement {

@@ -1,4 +1,4 @@
-package sungs.msa.app.service;
+package sungs.msa.apps.msapp1.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +24,12 @@ public class StaticConfigService {
 	private String configmng_id;
 	
 	
-	
+	@Value("${spring.rabbitmq.host}")
+	private String spring_rabbitmq_host;
 	
 	
 	//개별앱 properties
-	@Value("${ms-app1.comment}")
+	@Value("${ms-app1.comment:not configged}")  //@Value어노테이션에 ms-app1.comment 속성 값이 빈값이면 에러 나기때문에 빈값일경우 디폴트값 not configged 를 선언해 줬다..
 	private String ms_app1_comment;
 	
 	
@@ -39,6 +40,7 @@ public class StaticConfigService {
 		map.put("comment", comment);
 		map.put("configmng_id", configmng_id);
 		map.put("ms_app1_comment", ms_app1_comment);
+		map.put("spring_rabbitmq_host", spring_rabbitmq_host);
 		return map;
 	}
 }
